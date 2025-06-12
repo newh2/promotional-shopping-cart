@@ -22,9 +22,9 @@ This is a RESTful API built with NestJS that simulates a shopping cart system. T
 Clone the repository and install the dependencies:
 
 ```bash
-# Clone the repository (if applicable)
-# git clone https://github.com/newh2/promotional-shopping-cart.git
-# cd promotional-shopping-cart
+Clone the repository (if applicable)
+git clone https://github.com/newh2/promotional-shopping-cart.git
+cd promotional-shopping-cart
 
 # Install dependencies
 yarn install
