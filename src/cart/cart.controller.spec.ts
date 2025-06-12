@@ -3,7 +3,6 @@ import { CartController } from './cart.controller';
 import { CartService } from './cart.service';
 import { AddItemCartDto } from './dto/add-item-cart.dto';
 import { Cart } from './entities/cart.entity';
-import { CartItem } from './entities/cart-item.entity';
 
 const mockCartService = {
   addItem: jest.fn(),
@@ -43,7 +42,6 @@ describe('CartController', () => {
       const addItemDto: AddItemCartDto = {
         productId: 'uuid-product-1',
         quantity: 2,
-        items: [] as CartItem[],
       };
       const cartId = 'uuid-cart-1';
       const expectedCart = { id: cartId, items: [] } as Cart;
@@ -60,7 +58,6 @@ describe('CartController', () => {
       const addItemDto: AddItemCartDto = {
         productId: 'uuid-product-1',
         quantity: 1,
-        items: [] as CartItem[],
       };
       const newCart = { id: 'new-cart-uuid', items: [] } as Cart;
 

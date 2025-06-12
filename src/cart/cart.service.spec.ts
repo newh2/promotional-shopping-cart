@@ -70,7 +70,6 @@ describe('CartService', () => {
     const itemDto: AddItemCartDto = {
       productId: 'prod-1',
       quantity: 1,
-      items: [],
     };
     const product = { id: 'prod-1', name: 'T-shirt', price: 35.99 } as Products;
 

@@ -1,8 +1,8 @@
 import {
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { CartItem } from './cart-item.entity';
@@ -13,8 +13,8 @@ export class Cart {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @OneToOne(() => User, (user) => user.cart, { nullable: true })
-  @JoinColumn()
+  @ManyToOne(() => User, (user) => user.cart, { nullable: true })
+  @JoinColumn({ name: 'userId' })
   user: User | null;
 
   @OneToMany(() => CartItem, (item) => item.cart, {

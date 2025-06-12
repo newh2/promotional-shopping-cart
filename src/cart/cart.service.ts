@@ -96,4 +96,25 @@ export class CartService {
       HttpStatus.OK, `Item com ID ${itemId} removido do carrinho ${cartId}.`
     );
   }
+
+  async getCart(cartId: string): Promise<Cart> {
+    const cart = await this.cartRepository.findOne({
+      where: { id: cartId },
+      relations: ['items', 'items.product'],
+    });
+    if (!cart) {
+      throw new NotFoundException(`Carrinho com ID ${cartId} não encontrado.`);
+    }
+    return cart;
+  }
+
+  async getAllCarts(): Promise<Cart[]> {
+    const carts = await this.cartRepository.find({
+      relations: ['items', 'items.product'],
+    });
+    if (!carts || carts.length === 0) {
+      throw new NotFoundException('Nenhum carrinho encontrado.');
+    }
+    return carts;
+  }
 }
