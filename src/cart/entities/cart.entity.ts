@@ -6,16 +6,16 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { CartItem } from './cart-item.entity';
-import { User } from 'src/users/entities/user.entity';
+import { User } from './../../users/entities/user.entity';
 
 @Entity('cart')
 export class Cart {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @OneToOne(() => User, (user) => user.cart, { nullable: false })
+  @OneToOne(() => User, (user) => user.cart, { nullable: true })
   @JoinColumn()
-  user: User;
+  user: User | null;
 
   @OneToMany(() => CartItem, (item) => item.cart, {
     cascade: true,

@@ -1,10 +1,9 @@
-class CartItemResponseDto {
+export class CartItemResponseDto {
   productId: string;
   name: string;
   price: number;
   quantity: number;
 }
-
 export class CartCalculationResponseDto {
   items: CartItemResponseDto[];
   subtotal: number;
