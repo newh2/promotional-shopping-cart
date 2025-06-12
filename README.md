@@ -23,8 +23,8 @@ Clone the repository and install the dependencies:
 
 ```bash
 # Clone the repository (if applicable)
-# git clone https://your-repository.git
-# cd your-project
+# git clone https://github.com/newh2/promotional-shopping-cart.git
+# cd promotional-shopping-cart
 
 # Install dependencies
 yarn install
