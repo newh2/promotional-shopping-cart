@@ -1,26 +1,39 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCartDto } from './dto/create-cart.dto';
-import { UpdateCartDto } from './dto/update-cart.dto';
+import { AddItemCartDto } from './dto/add-item-cart.dto';
+import type { Repository } from 'typeorm';
+import { Cart } from './entities/cart.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class CartService {
-  create(createCartDto: CreateCartDto) {
-    return 'This action adds a new cart';
+  constructor(
+    @InjectRepository(Cart)
+    private readonly repository: Repository<Cart>,
+  ) {}
+
+  create(createCart: AddItemCartDto) {
+    const cart = this.repository.create(createCart);
+    return this.repository.save(cart);
   }
 
   findAll() {
-    return `This action returns all cart`;
+    return this.repository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} cart`;
+  findOne(id: string) {
+    return this.repository.findOneBy({ id });
   }
 
-  update(id: number, updateCartDto: UpdateCartDto) {
-    return `This action updates a #${id} cart`;
+  async update(id: string, dto: AddItemCartDto) {
+    const cart = await this.repository.findOneBy({ id });
+    if (!cart) return null;
+    this.repository.merge(cart, dto);
+    return this.repository.save(cart);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} cart`;
+  async remove(id: string) {
+    const cart = await this.repository.findOneBy({ id });
+    if (!cart) return null;
+    return this.repository.remove(cart);
   }
 }
