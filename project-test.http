@@ -1,0 +1,61 @@
+Url padrão
+@host = http://localhost:3000
+
+###
+# Criar usuário
+POST {{host}}/users
+Content-Type: application/json
+
+{
+  "name": "Usuário de Teste",
+  "type": "VIP"
+}
+
+###
+# Listar todos usuarios cadastrados
+GET {{host}}/users
+
+
+###
+# Listar produtos para obter um ID válido
+GET {{host}}/products
+
+
+
+###
+# Adicionar o primeiro item (cria um novo carrinho)
+POST {{host}}/cart/items
+Content-Type: application/json
+
+{
+  "productId": "addeb359-47ea-4299-b0e9-5acb751812ff",
+  "quantity": 2
+}
+
+
+###
+# Adicionar um segundo item AO MESMO carrinho
+POST {{host}}/cart/items?cartId=ec2f8f2e-e30a-42e6-94eb-fd9940a377e0
+Content-Type: application/json
+
+{
+  "productId": "7c9b8a27-3d4c-43ae-a945-d451a94139c9",
+  "quantity": 1
+}
+
+
+###
+# Calcular o total do carrinho
+GET {{host}}/cart/ec2f8f2e-e30a-42e6-94eb-fd9940a377e0/b3ac7757-87bf-413b-b9ab-f3c31dcc4eb8/total
+
+
+# Obter todos Carrinhos
+GET {{host}}/cart/
+
+###
+#Obter Carrinho por ID
+GET {{host}}/cart/622512a2-137f-4af3-9ea9-9feea023af75
+
+###
+# Agora, execute a requisição de remoção
+DELETE {{host}}/cart/c9050218-b65a-4f8b-97cd-f335d0f82de4/items/a2030cc1-423e-4566-b94f-1ce107e26459

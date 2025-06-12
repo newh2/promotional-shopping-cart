@@ -1,99 +1,76 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# Promotional Shopping Cart API
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+This is a RESTful API built with NestJS that simulates a shopping cart system. The application manages products, users, and shopping carts, automatically calculating the best price based on available promotions.
 
-## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+#### Tech Stack
+- Framework: NestJS
+- Language: TypeScript
+- ORM: TypeORM
+- Database: SQLite (in-memory)
+- Validation: class-validator and class-transformer
+- Testing: Jest
 
-## Project setup
+
+### Quickstart
+##### Prerequisites
+- Node.js (version 16 or higher recommended)
+- Yarn
+### Installation
+
+Clone the repository and install the dependencies:
 
 ```bash
-$ yarn install
-```
+# Clone the repository (if applicable)
+# git clone https://your-repository.git
+# cd your-project
 
-## Compile and run the project
+# Install dependencies
+yarn install
+```
+    
+#### Running the Application
 
 ```bash
-# development
-$ yarn run start
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
+yarn start:dev
 ```
-
-## Run tests
+#### Running Tests
 
 ```bash
-# unit tests
-$ yarn run test
+# Run unit tests
+yarn test
 
-# e2e tests
-$ yarn run test:e2e
+# Run end-to-end tests
+yarn test:e2e
 
-# test coverage
-$ yarn run test:cov
+# Run tests and generate a coverage report
+yarn test:cov
 ```
+### Architecture 
+The API is designed following NestJS best practices, with a modular and maintainable architecture.
 
-## Deployment
+#### Modules
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+- ProductsModule: Manages the products. Contains the logic to seed the database with initial items.
+- UsersModule: Handles user management. Also seeds the database with default users on startup.
+- CartModule: The core of the application. Manages cart creation, adding/removing items, and calculating totals.
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+#### Promotional logic
 
-```bash
-$ yarn install -g mau
-$ mau deploy
-```
+The most complex business logic is isolated in the PromotionService. This service is responsible for:
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+- Calculating the "Get 3 for the Price of 2" promotion discount, which sorts all cart items by price and makes the cheapest item in every group of three free.
+- Calculating the 15% discount for VIP users.
+- Comparing both discounts for a VIP user and automatically applying the most advantageous one, returning a recommendation message.
+- This approach keeps the CartService clean by delegating the calculation responsibility to a specialized service.
 
-## Resources
+#### Entities and Relationships
+- User and Cart have a OneToMany relationship (a user can have many carts).
+- Cart and CartItem have a OneToMany relationship (a cart can have many items).
+- Product and CartItem have a ManyToOne relationship (many cart items can point to the same product)
 
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+#### Assumptions & Trade-offs
+- Database: We use SQLite in-memory to simplify setup and testing, eliminating the need for an external database service. For a production environment, migrating to a more robust DBMS like PostgreSQL or MySQL would be necessary.
+- Cart State: The cart's state is managed entirely on the server-side, identified by a cartId. The flow allows anonymous users to create a cart and only identify themselves when calculating the total with discounts.
+- Strong Typing: The use of DTOs (Data Transfer Objects) with class-validator ensures that all incoming API data is validated, maintaining a clean API contract and preventing malformed data.
